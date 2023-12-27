@@ -10,10 +10,10 @@ cal = zeros(nsam-2,5); % [timestamp dist vel acc sacc?]
 for i = 1:nsam-1
     % distancia total recorrida en grados visuales
     DTgr(i+1) = sqrt((sam(i+1,2)-sam(i,2)).^2 + (sam(i+1,3)-sam(i,3)).^2);
-    
+
     % velocidad en grados/segundos
     vel(i+1) = DTgr(i)/( (sam(i+1,1)-sam(i,1) )*10^-3);
-    
+
 end
 
 for i = 1:length(vel)-1 %%
@@ -22,16 +22,16 @@ for i = 1:length(vel)-1 %%
 
 end
 
-%% PARTE 2: Cálculo de umbrales
+%% PARTE 2: C?lculo de umbrales
 
 [fv,xv] = ecdf(vel);
 [fa,xa] = ecdf(acc);
 fa = (fa-.5)*2;
 
-%ths
-ths_vel = xv(find(fv>=.85,1,'first')); 
-thsa_inf = xa(find(fa<=-.9,1,'last')); 
-thsa_sup = xa(find(fa>=.9,1,'first')); 
+% Threshold
+ths_vel = xv(find(fv>=.85,1,'first'));
+thsa_inf = xa(find(fa<=-.9,1,'last'));
+thsa_sup = xa(find(fa>=.9,1,'first'));
 
 ths_acc = [thsa_inf thsa_sup];
 
@@ -56,8 +56,6 @@ plot([thsa_inf thsa_inf],[0 max(counts)],'k--','LineWidth',1.4);
 xlabel('Acceleration [u.a./s^2]');
 ylabel('Frequency');
 set(gca,'FontWeight','bold','FontSize',10,'FontName','Arial','Visible','on');
-
-
 
 %title('Empirical (Kaplan-Meier) cumulative distribution function')
 
